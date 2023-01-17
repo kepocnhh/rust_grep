@@ -1,0 +1,10 @@
+[package]
+name = "rust_grep"
+description = "Rust book, chapter 12."
+version = "0.1.0"
+authors = ["Stanley Wintergreen <kepocnhh@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/kepocnhh/rust_grep"
+publish = false
+edition = "2021"
+rust-version = "1.66.0"
