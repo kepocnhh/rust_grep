@@ -5,8 +5,8 @@ use crate::entity::Config;
 
 fn print_help() {
     println!("Usage: rust_grep [options...]");
-    println!("-f | --file <file_path>\tRead from file by <file_path>");
-    println!("-h | --help\t\tGet help");
+    println!("{:?} <file_path>\tRead from file by <file_path>", Config::File.get_flags());
+    println!("{:?}\t\tGet help", Config::Help.get_flags());
 }
 
 pub fn on_args(args: &[String]) {
@@ -15,8 +15,8 @@ pub fn on_args(args: &[String]) {
         Ok(config) => {
             match config {
                 Config::Help => print_help(),
-                Config::File { content } => {
-                    todo!("file:\n{content}")
+                Config::File => {
+                    todo!("file!")
                 }
             }
         }
