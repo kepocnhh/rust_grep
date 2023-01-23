@@ -1,12 +1,12 @@
 mod parser;
-mod config;
+mod entity;
 
-use crate::config::Config;
+use crate::entity::Config;
 
 fn print_help() {
     println!("Usage: rust_grep [options...]");
-    println!("-f <file_path>\tRead from file by <file_path>");
-    println!("--help\t\tGet help");
+    println!("-f | --file <file_path>\tRead from file by <file_path>");
+    println!("-h | --help\t\tGet help");
 }
 
 pub fn on_args(args: &[String]) {
@@ -20,6 +20,10 @@ pub fn on_args(args: &[String]) {
                 }
             }
         }
-        Err(_) => print_help()
+        Err(message) => {
+            println!("Error: {message}");
+            println!();
+            print_help()
+        }
     }
 }

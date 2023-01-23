@@ -1,30 +1,37 @@
-use crate::config::Config;
+use crate::entity::Config;
 
 fn get_config_by_file(file_path: &String) -> Result<Config, String> {
     if file_path.is_empty() {
         return Err("File path is empty!".to_owned())
     }
-    let content = std::fs::read_to_string(file_path)
-        .expect("Should have been able to read the file by path \"{file_path}\"!");
-    return Ok(Config::File { content })
+    return match std::fs::read_to_string(file_path) {
+        Ok(content) => Ok(Config::File { content }),
+        Err(_) => Err(format!("Should have been able to read the file by path \"{file_path}\"!"))
+    }
 }
 
 pub fn parse_args(args: &[String]) -> Result<Config, String> {
     let len = args.len();
 
+    if len == 0 {
+        return Err("No args!".to_owned())
+    }
+
     if len == 1 {
-        if args[0] == "--help" {
-            return Ok(Config::Help);
+        let flag = args[0].as_str();
+        return match flag {
+            "-h" | "--help" => Ok(Config::Help),
+            _ => Err(format!("Flag \"{flag}\" is not supported!"))
         }
     }
 
     if len == 2 {
         let flag = args[0].as_str();
         return match flag {
-            "-f" => return get_config_by_file(&args[1]),
+            "-f" | "--file" => return get_config_by_file(&args[1]),
             _ => Err(format!("Flag \"{flag}\" is not supported!"))
         }
     }
 
-    todo!()
+    return Err("Too many args!".to_owned());
 }
